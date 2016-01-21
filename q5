@@ -1,0 +1,52 @@
+from __future__ import division
+import operator
+
+def GC_percent(str):
+    cnt = 0
+    for i in range (0, len(str)):
+        if str[i] == 'C' or str[i] == 'G':
+            cnt +=1
+   # print cnt
+    #print len(str)
+
+    return cnt/len(str)
+    
+    
+
+def parser(s):
+    strings = s.strip().split('>')
+    list = {}
+    percents=[]
+    count=[]
+
+    for s in strings:
+        if len(s) == 0:
+            continue #do nothing
+
+        parts = s.split() #has the ID label, but content separated by \n
+        #print parts
+        label = parts[0] #store ids
+        #print label
+        bases = ''.join(parts[1:]) #get rid of  \n
+        
+       # percents[s]= GC_percent(bases)
+        count=percents.sort(reverse=True) 
+        
+        list[label] = bases
+        
+    return list
+    
+
+
+dataset = open('rosalind_gc-3.txt').read()
+
+list = parser(dataset)
+
+results = dict([(label, GC_percent(base)) for label, base in list.iteritems()])
+#store in a dictionary
+
+#sort dictionary
+sorted_x = sorted(results.items(), key=operator.itemgetter(1), reverse=True)
+
+
+print sorted_x[0]
